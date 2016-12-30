@@ -175,7 +175,12 @@ namespace NXML
             sArgs.BrojUlice  = "80";
             sArgs.Ime        = "Kristijan";
             sArgs.Prezime    = "Korać";
-            sArgs.Ispostava  = "3243";            
+            sArgs.Telefon    = "123-123";
+            sArgs.Email      = "kristijan@korac.com";
+            sArgs.Ispostava  = "3243";    
+            
+            sArgs.I1         = "121321";
+            sArgs.I2         = "34534";        
 
             for (int i = 0; i < 5; i++)
             {
@@ -228,6 +233,7 @@ namespace NXML
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Error: " + ex.Message);
             }
         }
     }

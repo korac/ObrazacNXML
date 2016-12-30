@@ -52,7 +52,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ObrazacPDVSArgs.cs" />
+    <Compile Include="ObrazacPDVS\ObrazacPDVSArgs.cs" />
     <Compile Include="ObrazacPDVS\IsporukeClass.cs" />
     <Compile Include="ObrazacPDVS\ObrazacPDVS.cs" />
     <Compile Include="ObrazacPDV\ObrazacPDV.cs" />

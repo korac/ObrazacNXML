@@ -97,24 +97,6 @@ namespace NXML
             this.obrazacArgs = args;
         }
 
-
-        //public void DodajIsporuku(IsporukeClass isp)
-        //{
-        //    try
-        //    {
-        //        if(isporukeList == null)
-        //        {
-        //            isporukeList = new List<IsporukeClass>();
-        //        }
-        //        isporukeList.Add(isp);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Greška kod dodavanja isporuke: " + ex.Message);
-        //    }
-        //}
-
-
         public bool CreateObrazacPDVS()
         {
             try
@@ -268,12 +250,21 @@ namespace NXML
                 Tijelo  = xmlDoc.CreateElement("Tijelo");
                 xml     .AppendChild(rootNode, Tijelo);
                 // + subnodes
-                    Isporuke    = xmlDoc.CreateElement("Isporuke");
-                    xml         .AppendChild(Tijelo, Isporuke);
+                    Isporuke        = xmlDoc.CreateElement("Isporuke");
+                    xml             .AppendChild(Tijelo, Isporuke);
                     // + subnodes
                     CreateIsporuke();
 
+                    IsporukeUkupno  = xmlDoc.CreateElement("IsporukeUkupno");
+                    I1              = xmlDoc.CreateElement("I1");
+                    I2              = xmlDoc.CreateElement("I2");
 
+                    I1.InnerText    = obrazacArgs.I1;
+                    I2.InnerText    = obrazacArgs.I2;
+
+                    xml.AppendChild(Tijelo, IsporukeUkupno);
+                        xml.AppendChild(IsporukeUkupno, I1);
+                        xml.AppendChild(IsporukeUkupno, I2);
                 //BODY END ---------------------
 
                 xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\ObrazacPDVS.xml");

@@ -33,25 +33,11 @@ namespace NXML
         public string Telefon { get; set; }
         public string Email { get; set; }
         public string Ispostava { get; set; }
+        public string I1 { get; set; }
+        public string I2 { get; set; }
 
         public List<IsporukeClass> isporukeList { get; set; }
         #endregion
-
-        public void DodajIsporuku(IsporukeClass isp)
-        {
-            try
-            {
-                if (isporukeList == null)
-                {
-                    isporukeList = new List<IsporukeClass>();
-                }
-                isporukeList.Add(isp);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Greška kod dodavanja isporuke: " + ex.Message);
-            }
-        }
 
         public ObrazacPDVSArgs()
         {
@@ -78,6 +64,24 @@ namespace NXML
             this.Telefon    = String.Empty;
             this.Email      = String.Empty;
             this.Ispostava  = String.Empty;
+            this.I1         = String.Empty;
+            this.I2         = String.Empty;
+        }
+
+        public void DodajIsporuku(IsporukeClass isp)
+        {
+            try
+            {
+                if (isporukeList == null)
+                {
+                    isporukeList = new List<IsporukeClass>();
+                }
+                isporukeList.Add(isp);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Greška kod dodavanja isporuke: " + ex.Message);
+            }
         }
     }
 }
