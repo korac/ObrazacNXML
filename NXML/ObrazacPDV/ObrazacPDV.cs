@@ -890,7 +890,7 @@ namespace NXML
 
                 //BODY END ---------------------
 
-                xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\NXML.xml");
+                xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\ObrazacPDV.xml");
                 
 
                 return true;

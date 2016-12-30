@@ -151,6 +151,51 @@ namespace NXML
 
             ObrazacPDV oPDV = new ObrazacPDV(args);
             bool jel = oPDV.CreateObrazacPDV();
+
+
+            //********* PDVS **********//
+            ObrazacPDVSArgs sArgs   = new ObrazacPDVSArgs();           
+
+            sArgs.Naslov         = "Prijava poreza";
+            sArgs.Autor          = "Kristijan Korać";
+            sArgs.Datum          = "2015-01-02";
+            sArgs.Format         = "text/xml";
+            sArgs.Jezik          = "hr-HR";
+            sArgs.Identifikator  = "kodawkdawkodw";
+            sArgs.Uskladjenost   = "ObrazacPDV";
+            sArgs.Tip            = "Elektronicki obrazac";
+            sArgs.Adresant       = "Ministarstvo Financija, Porezna Uprava, Zagreb";
+            
+            sArgs.DatumOd    = "2014-02-02";
+            sArgs.DatumDo    = "2015-02-02";
+            sArgs.Naziv      = "Infos d.o.o";
+            sArgs.OIB        = "12334534345";
+            sArgs.Mjesto     = "Zagreb";
+            sArgs.Ulica      = "Radnicka";
+            sArgs.BrojUlice  = "80";
+            sArgs.Ime        = "Kristijan";
+            sArgs.Prezime    = "Korać";
+            sArgs.Ispostava  = "3243";            
+
+            for (int i = 0; i < 5; i++)
+            {
+                IsporukeClass isporuka  = new IsporukeClass();
+                isporuka.RedBr          = i.ToString();
+                isporuka.KodDrzave      = "DR" + i.ToString();
+                isporuka.PDVID          = "33893489";
+                isporuka.I1             = "100.00";
+                isporuka.I2             = "100.00";
+
+                sArgs.DodajIsporuku(isporuka);
+            }
+
+            ObrazacPDVS oPDVS   = new ObrazacPDVS(sArgs);
+            bool jelS           = oPDVS.CreateObrazacPDVS();
+
+            //*********      **********//
+
+
+
             MessageBox.Show("Spremljeno: " + jel.ToString());
             
         }

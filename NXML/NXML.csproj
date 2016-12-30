@@ -52,8 +52,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ObrazacPDV.cs" />
-    <Compile Include="ObrazacPDVArgs.cs" />
+    <Compile Include="ObrazacPDVSArgs.cs" />
+    <Compile Include="ObrazacPDVS\IsporukeClass.cs" />
+    <Compile Include="ObrazacPDVS\ObrazacPDVS.cs" />
+    <Compile Include="ObrazacPDV\ObrazacPDV.cs" />
+    <Compile Include="ObrazacPDV\ObrazacPDVArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XMLHelpBuilder.cs" />
@@ -82,6 +85,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
