@@ -290,7 +290,12 @@ namespace NXML
                         datumOd.InnerText   = ppoIsporuka.DatumOd;
                         datumDo.InnerText   = ppoIsporuka.DatumDo;
 
-                    foreach(PodaciPPOClass podatak in ppoIsporuka.PodaciList)
+                        xml.AppendChild(isporukaNode, podaci);
+                        xml.AppendChild(isporukaNode, iznos);
+                        xml.AppendChild(isporukaNode, datumOd);
+                        xml.AppendChild(isporukaNode, datumDo);
+
+                    foreach (PodaciPPOClass podatak in ppoIsporuka.PodaciList)
                     {
                         XmlNode podatakNode = xmlDoc.CreateElement("Podatak");
                         // + subnodes
@@ -306,11 +311,10 @@ namespace NXML
                             xml.AppendChild(podatakNode, podatakOIB);
                             xml.AppendChild(podatakNode, podatakIznos);
 
-                        xml.AppendChild(isporukaNode, podatakNode);
+                        xml.AppendChild(podaci, podatakNode);
                     }
 
                     xml.AppendChild(Isporuke, isporukaNode);
-
                 }
             }
             catch (Exception ex)

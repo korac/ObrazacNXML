@@ -236,7 +236,7 @@ namespace NXML
                     ppoIsporuka.DatumOd = "2016-01-01";
                     ppoIsporuka.DatumDo = "2016-01-31";
 
-                    for(int j = 1; j < 6; j++)
+                    for(int j = 1; j < 4; j++)
                     {
                         PodaciPPOClass ppoPodatak   = new PodaciPPOClass();
                         ppoPodatak.RedniBroj        = j.ToString();
