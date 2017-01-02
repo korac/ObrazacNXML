@@ -7,17 +7,17 @@ using System.Xml;
 
 namespace NXML
 {
-    class ObrazacPDVS
+    class ObrazacPPO
     {
         //*****************************************************************************************//
         //-----------------------------------------------------------------------------------------//
-        //                       OBRAZAC PDVS (30.12.2016 by K.KORAĆ ;) )                          //
+        //                       OBRAZAC PPO (01.02.2017 by K.KORAĆ ;) )                           //
         //-----------------------------------------------------------------------------------------//
         //*****************************************************************************************//
 
         private XMLHelpBuilder xml;
         private XmlDocument xmlDoc;
-        private ObrazacPDVSArgs obrazacArgs;
+        private ObrazacPPOArgs obrazacArgs;
 
         #region Nodes
 
@@ -46,6 +46,8 @@ namespace NXML
             // + subnodes
                 XmlNode DatumOd;
                 XmlNode DatumDo;
+                XmlNode Tromjesecje;
+                XmlNode Godina;
             XmlNode Obveznik;
             // + subnodes
                 XmlNode Naziv;
@@ -59,8 +61,6 @@ namespace NXML
             // + subnodes
                 XmlNode Ime;
                 XmlNode Prezime;
-                XmlNode Telefon;
-                XmlNode Email;
             XmlNode Ispostava;
         //--------
 
@@ -68,34 +68,30 @@ namespace NXML
         XmlNode Tijelo;
         // + subnodes
             XmlNode Isporuke;
-            XmlNode IsporukeUkupno;
-            // + subnodes
-                XmlNode I1;
-                XmlNode I2;
+            XmlNode Ukupno;
         #endregion
 
         #region Strings
-        string rootAttributeXmlnsName = "xmlns";
-        string rootAttributeXmlnsText = "http://e-porezna.porezna-uprava.hr/sheme/zahtjevi/ObrazacPDVS/v1-0";
+        string rootAttributeXmlnsName   = "xmlns";
+        string rootAttributeXmlnsText   = "http://e-porezna.porezna-uprava.hr/sheme/zahtjevi/ObrazacPPO/v1-0";
         string rootAttributeVerzijaName = "verzijaSheme";
         string rootAttributeVerzijaText = "1.0";
         string metapodaciXmlnsAttribute = "http://e-porezna.porezna-uprava.hr/sheme/Metapodaci/v2-0";
-        string naslovDcText = "http://purl.org/dc/elements/1.1/title";
-        string autorDcText = "http://purl.org/dc/elements/1.1/creator";
-        string datumDcText = "http://purl.org/dc/elements/1.1/date";
-        string formatDcText = "http://purl.org/dc/elements/1.1/format";
-        string jezikDcText = "http://purl.org/dc/elements/1.1/language";
-        string identifikatorDcText = "http://purl.org/dc/elements/1.1/identifier";
-        string uskladjenostDcText = "http://purl.org/dc/terms/conformsTo";
-        string tipDcText = "http://purl.org/dc/elements/1.1/type";
+        string naslovDcText             = "http://purl.org/dc/elements/1.1/title";
+        string autorDcText              = "http://purl.org/dc/elements/1.1/creator";
+        string datumDcText              = "http://purl.org/dc/elements/1.1/date";
+        string formatDcText             = "http://purl.org/dc/elements/1.1/format";
+        string jezikDcText              = "http://purl.org/dc/elements/1.1/language";
+        string identifikatorDcText      = "http://purl.org/dc/elements/1.1/identifier";
+        string uskladjenostDcText       = "http://purl.org/dc/terms/conformsTo";
+        string tipDcText                = "http://purl.org/dc/elements/1.1/type";
         #endregion
-
-        public ObrazacPDVS(ObrazacPDVSArgs args)
+        public ObrazacPPO(ObrazacPPOArgs args)
         {
             this.obrazacArgs = args;
         }
 
-        public bool CreateObrazacPDVS()
+        public bool CreateObrazacPPO()
         {
             try
             {
@@ -105,7 +101,7 @@ namespace NXML
                 xml     .CreateXmlDeclaration();
 
                 //ROOT -----------------------
-                rootNode                        = xmlDoc.CreateElement("ObrazacPDVS");
+                rootNode                        = xmlDoc.CreateElement("ObrazacPPO");
 
                 rootAttributeXmlns              = xmlDoc.CreateAttribute(rootAttributeXmlnsName);
                 rootAttributeXmlns.InnerText    = rootAttributeXmlnsText;
@@ -117,7 +113,7 @@ namespace NXML
                 rootNode.Attributes.Append(rootAttributeVerzija);
 
                 xml.CreateRoot(rootNode);
-                //ROOT END -------------------
+                //END ROOT -------------------
 
                 //HEADER -----------------------
                 Metapodaci                      = xmlDoc.CreateElement("Metapodaci");
@@ -167,7 +163,7 @@ namespace NXML
                     XmlAttribute dcUskl     = xmlDoc.CreateAttribute("dc");
                     dcUskl.InnerText        = uskladjenostDcText;
                     Uskladjenost.Attributes .Append(dcUskl);
-                    Uskladjenost.InnerText  = obrazacArgs.Uskladjenost;
+                    Uskladjenost.InnerText  = obrazacArgs.Identifikator;
 
                     Tip                     = xmlDoc.CreateElement("Tip");
                     XmlAttribute dcTip      = xmlDoc.CreateAttribute("dc");
@@ -177,6 +173,7 @@ namespace NXML
 
                     Adresant                = xmlDoc.CreateElement("Adresant");
                     Adresant.InnerText      = obrazacArgs.Adresant;
+
 
                 xml.AppendChild(Metapodaci, Naslov);
                 xml.AppendChild(Metapodaci, Autor);
@@ -203,24 +200,19 @@ namespace NXML
                     BrojUlice       = xmlDoc.CreateElement("Broj");
                     Ime             = xmlDoc.CreateElement("Ime");
                     Prezime         = xmlDoc.CreateElement("Prezime");
-                    Telefon         = xmlDoc.CreateElement("Telefon");
-                    Email           = xmlDoc.CreateElement("Email");
                     ObracunSastavio = xmlDoc.CreateElement("ObracunSastavio");
                     Ispostava       = xmlDoc.CreateElement("Ispostava");
 
-                    DatumOd.InnerText   = obrazacArgs.DatumOd;
-                    DatumDo.InnerText   = obrazacArgs.DatumDo;
-                    Naziv.InnerText     = obrazacArgs.Naziv;
-                    OIB.InnerText       = obrazacArgs.OIB;
-                    Mjesto.InnerText    = obrazacArgs.Mjesto;
-                    Ulica.InnerText     = obrazacArgs.Ulica;
-                    BrojUlice.InnerText = obrazacArgs.BrojUlice;
-                    Ime.InnerText       = obrazacArgs.Ime;
-                    Prezime.InnerText   = obrazacArgs.Prezime;
-                    Telefon.InnerText   = obrazacArgs.Telefon;
-                    Email.InnerText     = obrazacArgs.Email;
-                    Ispostava.InnerText = obrazacArgs.Ispostava;
-
+                    DatumOd.InnerText       = obrazacArgs.DatumOd;
+                    DatumDo.InnerText       = obrazacArgs.DatumDo;
+                    Naziv.InnerText         = obrazacArgs.Naziv;
+                    OIB.InnerText           = obrazacArgs.OIB;
+                    Mjesto.InnerText        = obrazacArgs.Mjesto;
+                    Ulica.InnerText         = obrazacArgs.Ulica;
+                    BrojUlice.InnerText     = obrazacArgs.BrojUlice;
+                    Ime.InnerText           = obrazacArgs.Ime;
+                    Prezime.InnerText       = obrazacArgs.Prezime;
+                    Ispostava.InnerText     = obrazacArgs.Ispostava;
 
                 xml.AppendChild(Zaglavlje, Razdoblje);
                     xml.AppendChild(Razdoblje, DatumOd);
@@ -237,70 +229,93 @@ namespace NXML
                 xml.AppendChild(Zaglavlje, ObracunSastavio);
                     xml.AppendChild(ObracunSastavio, Ime);
                     xml.AppendChild(ObracunSastavio, Prezime);
-                    xml.AppendChild(ObracunSastavio, Telefon);
-                    xml.AppendChild(ObracunSastavio, Email);
+
+                if(obrazacArgs.Tromjesecje != 0 && !String.IsNullOrEmpty(obrazacArgs.Godina))
+                {
+                    Tromjesecje     = xmlDoc.CreateElement("Tromjesecje");
+                    Godina          = xmlDoc.CreateElement("Godina");       
+
+                    Tromjesecje.InnerText   = obrazacArgs.Tromjesecje.ToString();
+                    Godina.InnerText        = obrazacArgs.Godina;
+
+                    xml.AppendChild(Razdoblje, Tromjesecje);
+                    xml.AppendChild(Razdoblje, Godina);
+                }
+                
 
                 xml.AppendChild(Zaglavlje, Ispostava);
                 //HEADER END -------------------
-
 
                 //BODY -------------------------
                 Tijelo  = xmlDoc.CreateElement("Tijelo");
                 xml     .AppendChild(rootNode, Tijelo);
                 // + subnodes
-                    Isporuke        = xmlDoc.CreateElement("Isporuke");
-                    xml             .AppendChild(Tijelo, Isporuke);
-                    // + subnodes
+                    Isporuke    = xmlDoc.CreateElement("Isporuke");
+                    Ukupno      = xmlDoc.CreateElement("Ukupno");
+
+                    xml.AppendChild(Tijelo, Isporuke);
+                    xml.AppendChild(Tijelo, Ukupno);
+
                     CreateIsporuke();
+                    Ukupno.InnerText    = obrazacArgs.Ukupno;
 
-                    IsporukeUkupno  = xmlDoc.CreateElement("IsporukeUkupno");
-                    I1              = xmlDoc.CreateElement("I1");
-                    I2              = xmlDoc.CreateElement("I2");
+                    xml.AppendChild(Tijelo, Isporuke);
+                    xml.AppendChild(Tijelo, Ukupno);
+                //BODY END ------------------------
 
-                    I1.InnerText    = obrazacArgs.I1;
-                    I2.InnerText    = obrazacArgs.I2;
-
-                    xml.AppendChild(Tijelo, IsporukeUkupno);
-                        xml.AppendChild(IsporukeUkupno, I1);
-                        xml.AppendChild(IsporukeUkupno, I2);
-                //BODY END ---------------------
-
-                xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\ObrazacPDVS.xml");
+                xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\ObrazacPPO.xml");
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.Message);
                 return false;
             }
         }
 
         private void CreateIsporuke()
         {
-            foreach(IsporukeClass isporuka in obrazacArgs.isporukeList)
+            try
             {
-                XmlNode isporukaNode        = xmlDoc.CreateElement("Isporuka");
-                // + subnodes
-                    XmlNode isporukaRedBr       = xmlDoc.CreateElement("RedBr");
-                    XmlNode isporukaKodDrzave   = xmlDoc.CreateElement("KodDrzave");
-                    XmlNode isporukaPDVID       = xmlDoc.CreateElement("PDVID");
-                    XmlNode isporukaI1          = xmlDoc.CreateElement("I1");
-                    XmlNode isporukaI2          = xmlDoc.CreateElement("I2");
+                foreach(IsporukePPOClass ppoIsporuka in obrazacArgs.isporukePPOList)
+                {
+                    XmlNode isporukaNode    = xmlDoc.CreateElement("Isporuka");
+                    // + subnodes
+                        XmlNode podaci  = xmlDoc.CreateElement("Podaci");
+                        XmlNode iznos   = xmlDoc.CreateElement("Iznos");
+                        XmlNode datumOd = xmlDoc.CreateElement("DatumOd");
+                        XmlNode datumDo = xmlDoc.CreateElement("DatumDo");
 
-                    isporukaRedBr.InnerText     = isporuka.RedBr;
-                    isporukaKodDrzave.InnerText = isporuka.KodDrzave;
-                    isporukaPDVID.InnerText     = isporuka.PDVID;
-                    isporukaI1.InnerText        = isporuka.I1;
-                    isporukaI2.InnerText        = isporuka.I2;
+                        iznos.InnerText     = ppoIsporuka.Iznos;
+                        datumOd.InnerText   = ppoIsporuka.DatumOd;
+                        datumDo.InnerText   = ppoIsporuka.DatumDo;
 
-                    xml.AppendChild(isporukaNode, isporukaRedBr);
-                    xml.AppendChild(isporukaNode, isporukaKodDrzave);
-                    xml.AppendChild(isporukaNode, isporukaPDVID);
-                    xml.AppendChild(isporukaNode, isporukaI1);
-                    xml.AppendChild(isporukaNode, isporukaI2);
+                    foreach(PodaciPPOClass podatak in ppoIsporuka.PodaciList)
+                    {
+                        XmlNode podatakNode = xmlDoc.CreateElement("Podatak");
+                        // + subnodes
+                            XmlNode podatakRedBr = xmlDoc.CreateElement("RedniBroj");
+                            XmlNode podatakOIB   = xmlDoc.CreateElement("OIB");
+                            XmlNode podatakIznos = xmlDoc.CreateElement("Iznos");
 
-                xml.AppendChild(Isporuke, isporukaNode);
+                            podatakRedBr.InnerText  = podatak.RedniBroj;
+                            podatakOIB.InnerText    = podatak.OIB;
+                            podatakIznos.InnerText  = podatak.Iznos;
+
+                            xml.AppendChild(podatakNode, podatakRedBr);
+                            xml.AppendChild(podatakNode, podatakOIB);
+                            xml.AppendChild(podatakNode, podatakIznos);
+
+                        xml.AppendChild(isporukaNode, podatakNode);
+                    }
+
+                    xml.AppendChild(Isporuke, isporukaNode);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Greška kod pisanja isporuka i podataka: " + ex.Message);
             }
         }
     }
