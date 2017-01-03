@@ -253,6 +253,55 @@ namespace NXML
                 bool jelPPO     = PPO.CreateObrazacPPO();
                 //************************//
 
+                //********* PPO **********//
+                ObrazacZPArgs zpArgs = new ObrazacZPArgs();
+
+                zpArgs.Naslov         = "Zbirna prijavu za isporuke dobara i usluga u druge države članice Europske unije";
+                zpArgs.Autor          = "Kristijan Korać";
+                zpArgs.Datum          = "2015-01-02";
+                zpArgs.Format         = "text/xml";
+                zpArgs.Jezik          = "hr-HR";
+                zpArgs.Identifikator  = "kodawkdawkodw";
+                zpArgs.Uskladjenost   = "ObrazacPDV";
+                zpArgs.Tip            = "Elektronicki obrazac";
+                zpArgs.Adresant       = "Ministarstvo Financija, Porezna Uprava, Zagreb";
+                
+                zpArgs.DatumOd         = "2014-02-02";
+                zpArgs.DatumDo         = "2015-02-02";
+                zpArgs.Naziv           = "Infos d.o.o";
+                zpArgs.OIB             = "12334534345";
+                zpArgs.Mjesto          = "Zagreb";
+                zpArgs.Ulica           = "Radnicka";
+                zpArgs.BrojUlice       = "80";
+                zpArgs.Ime             = "Kristijan";
+                zpArgs.Prezime         = "Korać";
+                zpArgs.Telefon         = "012 2310 223";
+                zpArgs.Email           = "kox@mox.hr";
+                zpArgs.Ispostava       = "3243";
+
+                zpArgs.I1   = "2131";
+                zpArgs.I2   = "11231";
+                zpArgs.I3   = "4521";
+                zpArgs.I4   = "3475";
+
+                for(int i = 1; i < 21; i++)
+                {
+                    IsporukeZPClass zpIsporuka = new IsporukeZPClass();
+                    zpIsporuka.RedBr        = i.ToString();
+                    zpIsporuka.KodDrzave    = "HR";
+                    zpIsporuka.PDVID        = "1235463445";
+                    zpIsporuka.I1           = "700";
+                    zpIsporuka.I2           = "700";
+                    zpIsporuka.I3           = "700";
+                    zpIsporuka.I4           = "700";
+
+                    zpArgs.DodajIsporuku(zpIsporuka);
+                }
+
+                ObrazacZP oZP   = new ObrazacZP(zpArgs);
+                bool jelZP      = oZP.CreateObrazacZP();
+                //*************************//
+
 
                 MessageBox.Show("Spremljeno: " + jel.ToString());
             }

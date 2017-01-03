@@ -7,20 +7,19 @@ using System.Xml;
 
 namespace NXML
 {
-    class ObrazacPPO
+    class ObrazacZP
     {
         //*****************************************************************************************//
         //-----------------------------------------------------------------------------------------//
-        //                       OBRAZAC PPO (02.01.2017 by K.KORAĆ ;) )                           //
+        //                       OBRAZAC ZP (03.01.2017 by K.KORAĆ ;) )                            //
         //-----------------------------------------------------------------------------------------//
         //*****************************************************************************************//
 
         private XMLHelpBuilder xml;
         private XmlDocument xmlDoc;
-        private ObrazacPPOArgs obrazacArgs;
+        private ObrazacZPArgs obrazacArgs;
 
         #region Nodes
-
         //ROOT
         XmlNode rootNode;
             XmlAttribute rootAttributeXmlns;
@@ -61,6 +60,8 @@ namespace NXML
             // + subnodes
                 XmlNode Ime;
                 XmlNode Prezime;
+                XmlNode Telefon;
+                XmlNode Email;
             XmlNode Ispostava;
         //--------
 
@@ -68,12 +69,17 @@ namespace NXML
         XmlNode Tijelo;
         // + subnodes
             XmlNode Isporuke;
-            XmlNode Ukupno;
+            XmlNode IsporukeUkupno;
+            // + subnodes
+                XmlNode I1;
+                XmlNode I2;
+                XmlNode I3;
+                XmlNode I4;
         #endregion
 
         #region Strings
         string rootAttributeXmlnsName   = "xmlns";
-        string rootAttributeXmlnsText   = "http://e-porezna.porezna-uprava.hr/sheme/zahtjevi/ObrazacPPO/v1-0";
+        string rootAttributeXmlnsText   = "http://e-porezna.porezna-uprava.hr/sheme/zahtjevi/ObrazacZP/v1-0";
         string rootAttributeVerzijaName = "verzijaSheme";
         string rootAttributeVerzijaText = "1.0";
         string metapodaciXmlnsAttribute = "http://e-porezna.porezna-uprava.hr/sheme/Metapodaci/v2-0";
@@ -86,12 +92,13 @@ namespace NXML
         string uskladjenostDcText       = "http://purl.org/dc/terms/conformsTo";
         string tipDcText                = "http://purl.org/dc/elements/1.1/type";
         #endregion
-        public ObrazacPPO(ObrazacPPOArgs args)
+
+        public ObrazacZP(ObrazacZPArgs args)
         {
             this.obrazacArgs = args;
         }
 
-        public bool CreateObrazacPPO()
+        public bool CreateObrazacZP()
         {
             try
             {
@@ -101,7 +108,7 @@ namespace NXML
                 xml     .CreateXmlDeclaration();
 
                 //ROOT -----------------------
-                rootNode                        = xmlDoc.CreateElement("ObrazacPPO");
+                rootNode                        = xmlDoc.CreateElement("ObrazacZP");
 
                 rootAttributeXmlns              = xmlDoc.CreateAttribute(rootAttributeXmlnsName);
                 rootAttributeXmlns.InnerText    = rootAttributeXmlnsText;
@@ -113,7 +120,7 @@ namespace NXML
                 rootNode.Attributes.Append(rootAttributeVerzija);
 
                 xml.CreateRoot(rootNode);
-                //END ROOT -------------------
+                //ROOT END -------------------
 
                 //HEADER -----------------------
                 Metapodaci                      = xmlDoc.CreateElement("Metapodaci");
@@ -163,7 +170,7 @@ namespace NXML
                     XmlAttribute dcUskl     = xmlDoc.CreateAttribute("dc");
                     dcUskl.InnerText        = uskladjenostDcText;
                     Uskladjenost.Attributes .Append(dcUskl);
-                    Uskladjenost.InnerText  = obrazacArgs.Identifikator;
+                    Uskladjenost.InnerText  = obrazacArgs.Uskladjenost;
 
                     Tip                     = xmlDoc.CreateElement("Tip");
                     XmlAttribute dcTip      = xmlDoc.CreateAttribute("dc");
@@ -173,7 +180,6 @@ namespace NXML
 
                     Adresant                = xmlDoc.CreateElement("Adresant");
                     Adresant.InnerText      = obrazacArgs.Adresant;
-
 
                 xml.AppendChild(Metapodaci, Naslov);
                 xml.AppendChild(Metapodaci, Autor);
@@ -200,6 +206,8 @@ namespace NXML
                     BrojUlice       = xmlDoc.CreateElement("Broj");
                     Ime             = xmlDoc.CreateElement("Ime");
                     Prezime         = xmlDoc.CreateElement("Prezime");
+                    Telefon         = xmlDoc.CreateElement("Telefon");
+                    Email           = xmlDoc.CreateElement("Email");
                     ObracunSastavio = xmlDoc.CreateElement("ObracunSastavio");
                     Ispostava       = xmlDoc.CreateElement("Ispostava");
 
@@ -212,6 +220,8 @@ namespace NXML
                     BrojUlice.InnerText     = obrazacArgs.BrojUlice;
                     Ime.InnerText           = obrazacArgs.Ime;
                     Prezime.InnerText       = obrazacArgs.Prezime;
+                    Telefon.InnerText       = obrazacArgs.Telefon;
+                    Email.InnerText         = obrazacArgs.Email;
                     Ispostava.InnerText     = obrazacArgs.Ispostava;
 
                 xml.AppendChild(Zaglavlje, Razdoblje);
@@ -229,19 +239,8 @@ namespace NXML
                 xml.AppendChild(Zaglavlje, ObracunSastavio);
                     xml.AppendChild(ObracunSastavio, Ime);
                     xml.AppendChild(ObracunSastavio, Prezime);
-
-                if(obrazacArgs.Tromjesecje != 0 && !String.IsNullOrEmpty(obrazacArgs.Godina))
-                {
-                    Tromjesecje     = xmlDoc.CreateElement("Tromjesecje");
-                    Godina          = xmlDoc.CreateElement("Godina");       
-
-                    Tromjesecje.InnerText   = obrazacArgs.Tromjesecje.ToString();
-                    Godina.InnerText        = obrazacArgs.Godina;
-
-                    xml.AppendChild(Razdoblje, Tromjesecje);
-                    xml.AppendChild(Razdoblje, Godina);
-                }
-                
+                    xml.AppendChild(ObracunSastavio, Telefon);
+                    xml.AppendChild(ObracunSastavio, Email);
 
                 xml.AppendChild(Zaglavlje, Ispostava);
                 //HEADER END -------------------
@@ -250,77 +249,76 @@ namespace NXML
                 Tijelo  = xmlDoc.CreateElement("Tijelo");
                 xml     .AppendChild(rootNode, Tijelo);
                 // + subnodes
-                    Isporuke    = xmlDoc.CreateElement("Isporuke");
-                    Ukupno      = xmlDoc.CreateElement("Ukupno");
+                    Isporuke        = xmlDoc.CreateElement("Isporuke");
+                    // + subnodes
+                    CreateIsporuke();    
 
-                    xml.AppendChild(Tijelo, Isporuke);
-                    xml.AppendChild(Tijelo, Ukupno);
+                    xml             .AppendChild(Tijelo, Isporuke);                    
+                    
 
-                    CreateIsporuke();
-                    Ukupno.InnerText    = obrazacArgs.Ukupno;
+                    IsporukeUkupno  = xmlDoc.CreateElement("IsporukeUkupno");
+                    // + subnodes
+                        I1  = xmlDoc.CreateElement("I1");
+                        I2  = xmlDoc.CreateElement("I2");
+                        I3  = xmlDoc.CreateElement("I3");
+                        I4  = xmlDoc.CreateElement("I4");
 
-                    xml.AppendChild(Tijelo, Isporuke);
-                    xml.AppendChild(Tijelo, Ukupno);
-                //BODY END ------------------------
+                        I1.InnerText = obrazacArgs.I1;
+                        I2.InnerText = obrazacArgs.I2;
+                        I3.InnerText = obrazacArgs.I3;
+                        I4.InnerText = obrazacArgs.I4;
 
-                xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\ObrazacPPO.xml");
+                    xml.AppendChild(Tijelo, IsporukeUkupno);
+                        xml.AppendChild(IsporukeUkupno, I1);
+                        xml.AppendChild(IsporukeUkupno, I2);
+                        xml.AppendChild(IsporukeUkupno, I3);
+                        xml.AppendChild(IsporukeUkupno, I4);                    
+                //BODY END ---------------------
+
+                xmlDoc.Save(@"C:\Users\Kristijan\Desktop\TEMP3\ObrazacZP.xml");
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Greška: " + ex.Message);
                 return false;
             }
         }
 
         private void CreateIsporuke()
         {
-            try
+            foreach(IsporukeZPClass isporuka in obrazacArgs.isporukeList)
             {
-                foreach(IsporukePPOClass ppoIsporuka in obrazacArgs.isporukePPOList)
-                {
-                    XmlNode isporukaNode    = xmlDoc.CreateElement("Isporuka");
-                    // + subnodes
-                        XmlNode podaci  = xmlDoc.CreateElement("Podaci");
-                        XmlNode iznos   = xmlDoc.CreateElement("Iznos");
-                        XmlNode datumOd = xmlDoc.CreateElement("DatumOd");
-                        XmlNode datumDo = xmlDoc.CreateElement("DatumDo");
+                XmlNode isporukaNode = xmlDoc.CreateElement("Isporuka");
+                // + subnodes
+                    XmlNode isporukaRedBr       = xmlDoc.CreateElement("RedBr");
+                    XmlNode isporukaKodDrzave   = xmlDoc.CreateElement("KodDrzave");
+                    XmlNode isporukaPDVID       = xmlDoc.CreateElement("PDVID");
+                    XmlNode isporukaI1          = xmlDoc.CreateElement("I1");
+                    XmlNode isporukaI2          = xmlDoc.CreateElement("I2");
+                    XmlNode isporukaI3          = xmlDoc.CreateElement("I3");
+                    XmlNode isporukaI4          = xmlDoc.CreateElement("I4");
 
-                        iznos.InnerText     = ppoIsporuka.Iznos;
-                        datumOd.InnerText   = ppoIsporuka.DatumOd;
-                        datumDo.InnerText   = ppoIsporuka.DatumDo;
+                    isporukaRedBr.InnerText     = isporuka.RedBr;
+                    isporukaKodDrzave.InnerText = isporuka.KodDrzave;
+                    isporukaPDVID.InnerText     = isporuka.PDVID;
+                    isporukaI1.InnerText        = isporuka.I1;
+                    isporukaI2.InnerText        = isporuka.I2;
+                    isporukaI3.InnerText        = isporuka.I3;
+                    isporukaI4.InnerText        = isporuka.I4;
 
-                        xml.AppendChild(isporukaNode, podaci);
-                        xml.AppendChild(isporukaNode, iznos);
-                        xml.AppendChild(isporukaNode, datumOd);
-                        xml.AppendChild(isporukaNode, datumDo);
+                    xml.AppendChild(isporukaNode, isporukaRedBr);
+                    xml.AppendChild(isporukaNode, isporukaKodDrzave);
+                    xml.AppendChild(isporukaNode, isporukaPDVID);
+                    xml.AppendChild(isporukaNode, isporukaI1);
+                    xml.AppendChild(isporukaNode, isporukaI2);
+                    xml.AppendChild(isporukaNode, isporukaI3);
+                    xml.AppendChild(isporukaNode, isporukaI4);
 
-                    foreach (PodaciPPOClass podatak in ppoIsporuka.PodaciList)
-                    {
-                        XmlNode podatakNode = xmlDoc.CreateElement("Podatak");
-                        // + subnodes
-                            XmlNode podatakRedBr = xmlDoc.CreateElement("RedniBroj");
-                            XmlNode podatakOIB   = xmlDoc.CreateElement("OIB");
-                            XmlNode podatakIznos = xmlDoc.CreateElement("Iznos");
-
-                            podatakRedBr.InnerText  = podatak.RedniBroj;
-                            podatakOIB.InnerText    = podatak.OIB;
-                            podatakIznos.InnerText  = podatak.Iznos;
-
-                            xml.AppendChild(podatakNode, podatakRedBr);
-                            xml.AppendChild(podatakNode, podatakOIB);
-                            xml.AppendChild(podatakNode, podatakIznos);
-
-                        xml.AppendChild(podaci, podatakNode);
-                    }
-
-                    xml.AppendChild(Isporuke, isporukaNode);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Greška kod pisanja isporuka i podataka: " + ex.Message);
+                xml.AppendChild(Isporuke, isporukaNode);
             }
         }
+
     }
 }
