@@ -271,7 +271,10 @@ namespace NXML
                     OPZUkupanIznosRacunaSPdv        = xmlDoc.CreateElement("OPZUkupanIznosRacunaSPdv");
                     OPZUkupanIznosPdv               = xmlDoc.CreateElement("OPZUkupanIznosPdv");
 
-                    CreateKupci();
+                    if(obrazacArgs.kupciList != null)
+                    {
+                        CreateKupci();
+                    }
 
                     UkupanIznosRacunaObrasca.InnerText          = obrazacArgs.UkupanIznosRacunaObrasca;
                     UkupanIznosPdvObrasca.InnerText             = obrazacArgs.UkupanIznosPdvObrasca;
