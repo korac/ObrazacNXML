@@ -253,7 +253,7 @@ namespace NXML
                 bool jelPPO     = PPO.CreateObrazacPPO();
                 //************************//
 
-                //********* PPO **********//
+                //********* ZP **********//
                 ObrazacZPArgs zpArgs = new ObrazacZPArgs();
 
                 zpArgs.Naslov         = "Zbirna prijavu za isporuke dobara i usluga u druge države članice Europske unije";
@@ -300,7 +300,83 @@ namespace NXML
 
                 ObrazacZP oZP   = new ObrazacZP(zpArgs);
                 bool jelZP      = oZP.CreateObrazacZP();
-                //*************************//
+                //************************//
+
+
+                //********* OPZ **********//
+                ObrazacOPZArgs opzArgs = new ObrazacOPZArgs();
+
+                opzArgs.Naslov         = "Obrazac OPZ";
+                opzArgs.Autor          = "Kristijan Korać";
+                opzArgs.Datum          = "2015-01-02";
+                opzArgs.Format         = "text/xml";
+                opzArgs.Jezik          = "hr-HR";
+                opzArgs.Identifikator  = "kodawkdawkodw";
+                opzArgs.Uskladjenost   = "ObrazacPDV";
+                opzArgs.Tip            = "Elektronicki obrazac";
+                opzArgs.Adresant       = "Ministarstvo Financija, Porezna Uprava, Zagreb";
+                
+                opzArgs.DatumOd         = "2014-02-02";
+                opzArgs.DatumDo         = "2015-02-02";
+                opzArgs.Naziv           = "Infos d.o.o";
+                opzArgs.OIB             = "12334534345";
+                opzArgs.Mjesto          = "Zagreb";
+                opzArgs.Ulica           = "Radnicka";
+                opzArgs.BrojUlice       = "80";
+                opzArgs.PorezniEmail    = "apis@apis-it.hr";
+                opzArgs.Ime             = "Kristijan";
+                opzArgs.Prezime         = "Korać";
+                opzArgs.Telefon         = "012 2310 223";
+                opzArgs.Fax             = "012 2310 224";
+                opzArgs.Email           = "kox@mox.hr";
+                
+                opzArgs.NaDan           = "2015-12-31";
+                opzArgs.NisuNaplaceniDo = "2016-01-31";
+                
+                opzArgs.UkupanIznosRacunaObrasca           = "2100.00";
+                opzArgs.UkupanIznosPdvObrasca              = "625.00";
+                opzArgs.UkupanIznosRacunaSPdvObrasca       = "2625.00";
+                opzArgs.UkupniPlaceniIznosRacunaObrasca    = "50.00";
+                opzArgs.NeplaceniIznosRacunaObrasca        = "2575.00";
+                opzArgs.OPZUkupanIznosRacunaSPdv           = "0.00";
+                opzArgs.OPZUkupanIznosPdv                  = "0.00";
+
+                for(int i = 1; i < 3; i++)
+                {
+                    KupciClass kupac = new KupciClass();
+                    kupac.K1 = "1";
+                    kupac.K2 = "1";
+                    kupac.K3 = "00000000001";
+                    kupac.K4 = "Mala firma d.o.o.";
+                    kupac.K5 = "1100.00";
+                    kupac.K6 = "275.00";
+                    kupac.K7 = "1375.00";
+                    kupac.K8 = "50.00";
+                    kupac.K9 = "1325.00";
+
+                    for(int j = 1; j < 3; j++)
+                    {
+                        RacuniClass racun = new RacuniClass();
+                        racun.R1  = "1";
+                        racun.R2  = "2015-01";
+                        racun.R3  = "2015-01-10";
+                        racun.R4  = "2015-01-25";
+                        racun.R5  = "340";
+                        racun.R6  = "1000.00";
+                        racun.R7  = "250.00";
+                        racun.R8  = "1250.00";
+                        racun.R9  = "0.00";
+                        racun.R10 = "1250.00";
+
+                        kupac.DodajRacune(racun);
+                    }
+
+                    opzArgs.DodajKupca(kupac);
+                }
+
+                ObrazacOPZ oOPZ = new ObrazacOPZ(opzArgs);
+                bool jelOPZ     = oOPZ.CreateObrazacOPZ();
+                //************************//
 
 
                 MessageBox.Show("Spremljeno: " + jel.ToString());
