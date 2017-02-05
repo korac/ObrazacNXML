@@ -4,5 +4,8 @@
 bin/
 obj/
 
+obrasci/
+
 *.user
 *.suo
+
